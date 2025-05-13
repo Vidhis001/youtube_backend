@@ -57,7 +57,7 @@ userSchema.pre("save",async function(next) {
 })
 
 userSchema.methods.isPasswordCorrect=async function(password){
-    return await bcrypt.compare(this.password,password)
+    return await bcrypt.compare(password,this.password)
 }
 userSchema.methods.genAccessToken=function(password){
     return jwt.sign(
@@ -73,7 +73,7 @@ userSchema.methods.genAccessToken=function(password){
         }
     )
 }
-userSchema.methods.genRefreshToken=async function(password){
+userSchema.methods.genRefreshToken=function(){
     return jwt.sign(
         {
             _id:this.id,
@@ -84,4 +84,4 @@ userSchema.methods.genRefreshToken=async function(password){
         }
     )
 }
-export const User=mongoose.model("User",userSchema)
+export const user=mongoose.model("user",userSchema)
