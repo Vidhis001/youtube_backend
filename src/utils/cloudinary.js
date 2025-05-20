@@ -31,4 +31,28 @@ const uploadResult = async (localFilePath)=>{
     }
 }
 
-export {uploadResult}
+// ✅ NEW: Delete file from Cloudinary using public_id
+const deleteFromCloudinary = async (publicId) => {
+    try {
+        const result = await cloudinary.uploader.destroy(publicId, {
+            resource_type: "auto" // Cloudinary will detect the correct type
+        });
+
+        return result;
+    } catch (error) {
+        console.error("Cloudinary delete failed:", error);
+        return null;
+    }
+};
+
+const extractPublicId = (url) => {
+    if (!url) return null;
+
+    const fileName = url.split('/').pop();        // e.g., "abc123.mp4"
+    const publicId = fileName.split('.')[0];      // e.g., "abc123"
+    return publicId;
+};
+
+
+
+export {uploadResult,deleteFromCloudinary,extractPublicId}
